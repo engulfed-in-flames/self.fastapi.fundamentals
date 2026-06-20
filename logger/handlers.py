@@ -4,8 +4,8 @@ from queue import SimpleQueue
 from abc import ABC, abstractmethod
 from typing import List, override
 from logging.handlers import RotatingFileHandler, QueueHandler, QueueListener
-from logger.formatters import SimpleFormatterConfig, JsonFormatterConfig
-from logger.filters import StdoutFilterConfig, CorrelationFilterConfig
+from logger.formatters import SimpleFormatterConfig, JsonFormatter
+from logger.filters import MaxLevelFilter, CorrelationIdFilter
 
 
 class BaseHandlerConfig(ABC):
@@ -23,7 +23,7 @@ class StdoutHandlerConfig(BaseHandlerConfig):
         handler = logging.StreamHandler(sys.stdout)
         handler.setLevel(logging.DEBUG)
         handler.setFormatter(SimpleFormatterConfig().create())
-        handler.addFilter(StdoutFilterConfig().create())
+        handler.addFilter(MaxLevelFilter())
         return handler
 
 
@@ -43,7 +43,7 @@ class FileHandlerConfig(BaseHandlerConfig):
             filename="logs/my_app.log.jsonl", maxBytes=10000, backupCount=3
         )
         handler.setLevel(logging.DEBUG)
-        handler.setFormatter(JsonFormatterConfig().create())
+        handler.setFormatter(JsonFormatter())
         return handler
 
 
@@ -60,5 +60,5 @@ class AsyncQueueHandlerConfig(BaseHandlerConfig):
         handler.listener = QueueListener(
             queue, *self._target_handlers, respect_handler_level=True
         )
-        handler.addFilter(CorrelationFilterConfig().create())
+        handler.addFilter(CorrelationIdFilter())
         return handler

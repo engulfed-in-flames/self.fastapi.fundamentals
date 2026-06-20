@@ -2,8 +2,7 @@ import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 import uuid
-from logger.logging_manager import LoggingManager
-from logger.logging_manager import correlation_id_ctx
+from logger.logging_manager import LoggingManager, correlation_id_ctx
 
 
 logger = logging.getLogger("fastapi.app")
@@ -12,12 +11,12 @@ logger = logging.getLogger("fastapi.app")
 # Lifespan context manager perfectly handles the QueueListener lifecycle natively without external packages
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    log_manager = LoggingManager()
-    log_manager.setup()
+    logging_manager = LoggingManager()
+    logging_manager.setup()
     logger.info("Application startup: logging configured.")
     yield
     logger.info("Application shutdown: stopping log listener.")
-    log_manager.shutdown()
+    logging_manager.shutdown()
 
 
 app = FastAPI(lifespan=lifespan)

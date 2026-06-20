@@ -1,7 +1,6 @@
 import logging
 from pathlib import Path
-from logger.loggers import RootLoggerConfig
-from logger.filters import correlation_id_ctx
+from logger.config import RootLoggerConfig
 
 
 class LoggingManager:
@@ -16,7 +15,9 @@ class LoggingManager:
         RootLoggerConfig().configure()
 
         for handler in logging.getLogger().handlers:
-            if isinstance(handler, logging.handlers.QueueHandler) and hasattr(handler, "listener"):
+            if isinstance(handler, logging.handlers.QueueHandler) and hasattr(
+                handler, "listener"
+            ):
                 self._listener = handler.listener
                 self._listener.start()
                 break

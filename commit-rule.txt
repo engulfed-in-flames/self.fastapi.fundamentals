@@ -1,0 +1,21 @@
+Format: <type>(optional scope): <description>
+
+1. Choose a Type
+Start your subject with a clear, lowercase category:
+- feat: A new feature for the user.
+- fix: A bug fix.docs: Documentation changes.
+- style: Formatting, missing semicolons, etc. (no code change).
+- refactor: Refactoring code (neither a fix nor a new feature).
+- test: Adding or correcting tests.
+- chore: Maintenance tasks (build process, auxiliary tools, etc.).
+
+2. The Subject Line (50 Char. Limit)
+- Use imperative mood: Write it as a command ("add login button" instead of "added login button").
+- No capital letter at the very beginning (unless your project requires it).
+- No period at the end.
+
+3. Example Messages
+- feat: add user profile picture upload
+- fix(auth): resolve token expiration crash
+- docs: update API installation guide
+- refactor: clean up user context rendering
